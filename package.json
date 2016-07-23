@@ -1,0 +1,35 @@
+{
+  "name": "second-hand",
+  "version": "1.0.0",
+  "description": "Just another minimalist timer app widget",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager ./ second-hand --platform=win32 --arch=x64 --icon=img/clock-white-128.ico --out=./build",
+    "build!": "electron-packager ./ second-hand --platform=win32 --arch=x64 --icon=img/clock-white-128.ico --out=./build --overwrite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electron/electron-quick-start.git"
+  },
+  "keywords": [
+    "timer",
+    "clock",
+    "chronograph",
+    "count down",
+    "widget"
+  ],
+  "author": "Dickson Chui (vicksonzero)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/electron/electron-quick-start/issues"
+  },
+  "homepage": "https://github.com/electron/electron-quick-start#readme",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.0"
+  },
+  "dependencies": {
+    "js-yaml": "^3.6.1",
+    "moment": "^2.14.1"
+  }
+}
