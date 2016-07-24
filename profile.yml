@@ -2,6 +2,7 @@
 title: default
 conf-version: v0.1
 last-update: 2016-07-21 22:16
+defaultStyle: rainbow
 clocks:
     - type: clock
       name: default
@@ -17,14 +18,14 @@ clocks:
 alarms:
     - name: Hello
       active: 1
-      time: 2016-07-21 24:00
+      time: 2016-07-24 18:00
 styles:
     - name: default
       color: "#222222"
       accent-color: "#56BAEC"
       background-color: "#EEEEEE"
       border-color: "#444444"
-      opacity: 0.9 # decimal [0-1]
+      opacity: 0.8 # decimal [0-1]
     - name: baby-rainbow
       color: "#222222"
       background-color:
@@ -33,11 +34,13 @@ styles:
         saturation: 0.22
         value: 0.91
         alpha: 0.7
-    - name: crayon-rainbow
+    - name: rainbow
       color: "#222222"
       background-color:
         type: rainbow
-        interval: 3600000 # 1 hour
-        saturation: 0.22
-        value: 0.91
+        interval: 1000 # 1 second
+        # interval: 60000 # 1 minute
+        # interval: 3600000 # 1 hour
+        saturation: 0.3
+        value: 1
         alpha: 0.7

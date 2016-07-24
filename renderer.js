@@ -20,6 +20,9 @@ var clockmode = "clock"
 
 	var bgHue = Math.random();
 	var hueCycle = 60*60*1000; // millisecond
+	if(isRainbow(profile.defaultStyle)){
+		hueCycle = profile.defaultStyle["background-color"].interval || hueCycle;
+	}
 	// var hueCycle = 10*1000; // millisecond
 
 
@@ -43,7 +46,11 @@ var clockmode = "clock"
 			elem.time.innerText = getFormattedTime(Math.abs(Date.now() - startTime))
 		}
 		elem.title.innerText = titleText
-		updateBGColor()
+
+		if(isRainbow(profile.defaultStyle)){
+			console.log("HI");
+			updateBGColor(profile.defaultStyle)
+		}
 		// ctx.restore()
 
 		window.requestAnimationFrame(render)
@@ -58,14 +65,17 @@ var clockmode = "clock"
 		ctx.restore()
 	}
 
-	function updateBGColor() {
+	function updateBGColor(rainbowStyle) {
+		let colorDef = rainbowStyle["background-color"];
+		console.log(colorDef);
+		let sat = colorDef.saturation || 1;
+		let val = colorDef.value || 1;
+		let opacity = colorDef.alpha || 1;
 		bgHue = (Date.now() % hueCycle) / hueCycle
 		console.log(bgHue);
-		var color = HSVtoRGB(bgHue, 0.22, 0.91) // or 0.64, 0.93
-		elem.container.style.backgroundColor = "rgba(" + color.r + "," + color.g + "," + color.b + "," + profile.styles[0].opacity + ")"
+		var color = HSVtoRGB(bgHue, sat, val) // or 0.64, 0.93
+		elem.container.style.backgroundColor = "rgba(" + color.r + "," + color.g + "," + color.b + "," + opacity + ")"
 	}
-
-
 
 	function getFormattedTime(millisec) {
 		return timeString(millisec)
@@ -92,6 +102,10 @@ var clockmode = "clock"
 			+ (hours <=0? "." + doubleZeroPad( milliseconds ): "")
 			+ "";
 		return timeString;
+	}
+
+	function isRainbow(style) {
+		return style["background-color"].hasOwnProperty("type") && style['background-color'].type == "rainbow";
 	}
 
 	function zeroPad (num) {
