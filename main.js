@@ -7,9 +7,12 @@ const imageFolder = __dirname + '/img';
 const profile = require('./profile');
 // const shell = require('shell');
 
+app.commandLine.appendSwitch('enable-speech-dispatcher');
+app.commandLine.appendSwitch('enable-speech-synthesis');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
+
 
 function createWindow () {
 	// Create the browser window.
@@ -79,12 +82,6 @@ app.on('ready', () => {
 			}
 		},
 		{
-			label: 'Open DevTools',
-			click: function() {
-				mainWindow.webContents.openDevTools({mode: "detach"})
-			}
-		},
-		{
 			label: 'Edit Settings',
 			click: function() {
 				shell.openItem(`file://${__dirname}/profile.yml`)
@@ -97,6 +94,15 @@ app.on('ready', () => {
 			}
 		},
 		{
+			type: 'separator'
+		},
+		{
+			label: 'Open DevTools',
+			click: function() {
+				mainWindow.webContents.openDevTools({mode: "detach"})
+			}
+		},
+		{
 			label: 'Quit',
 			selector: 'terminate:',
 			click: function () {
@@ -106,6 +112,7 @@ app.on('ready', () => {
 	]);
 	tray.setToolTip('second-hand')
 	tray.setContextMenu(contextMenu)
+	Menu.setApplicationMenu(contextMenu);
 })
 
 app.on('ready', () => {

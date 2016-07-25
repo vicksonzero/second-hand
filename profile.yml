@@ -18,7 +18,11 @@ clocks:
 alarms:
     - name: Hello
       active: 1
-      time: 2016-07-24 18:00
+      time: 2016-07-24 23:54
+    - name: Chime
+      active: 1
+      speech: "The time is now _time()" # Note: you cannot nest patterns
+      cron: "0 * * * *"
 styles:
     - name: default
       color: "#222222"
@@ -38,9 +42,9 @@ styles:
       color: "#222222"
       background-color:
         type: rainbow
-        interval: 1000 # 1 second
-        # interval: 60000 # 1 minute
+        # interval: 1000 # 1 second
+        interval: 60000 # 1 minute
         # interval: 3600000 # 1 hour
         saturation: 0.3
         value: 1
-        alpha: 0.7
+        alpha: 0.85

@@ -8,12 +8,38 @@ const {ipcRenderer} = require('electron')
 
 const profile = require('./profile');
 
+const Speech = require('./Speech');
+const schedule = require('node-schedule');
+
+const moment = require('moment');
+
 var clockmode = "clock"
 ;(function() {
 	'use strict'
 	// var canvas = document.querySelector("#main-canvas")
 	// var ctx = canvas.getContext("2d")
 	// var startTime = Date.now();
+
+	// init speech module
+	var speech = new Speech();
+
+	speech.addDynamicPhrase('time', function (speech, args) {
+		let result = "";
+		result += moment().hour() + " ";
+		let mins = moment().minute();
+		if(mins == 0){
+			result += "o'clock";
+		}else if (mins < 10){
+			result += "o " + mins;
+		}else{
+			result += mins;
+		}
+		console.log(result);
+		return result;
+	});
+	speech.init();
+
+
 	var startTime = new Date(profile.alarms[0].time)
 	console.log(startTime);
 	var titleText = profile.alarms[0].name
@@ -25,7 +51,7 @@ var clockmode = "clock"
 	}
 	// var hueCycle = 10*1000; // millisecond
 
-
+	// cached element selectors
 	var elem = {
 		time: document.querySelector("#time"),
 		title: document.querySelector("#title"),
@@ -34,7 +60,28 @@ var clockmode = "clock"
 	ipcRenderer.on('clockmode', function (event, arg) {
 		clockmode = arg.mode;
 	})
+
+	// set alarms
+	profile.alarms.forEach(function (alarm) {
+		var scheduleTime = (alarm.hasOwnProperty("time") ? new Date(alarm.time) : null) || alarm.cron || "";
+
+		schedule.scheduleJob(scheduleTime, function(){
+			let msg = 'alarm is up '+ alarm.name;
+			console.log(msg);
+			if(alarm.hasOwnProperty("speech")){
+				speech.say(alarm.speech);
+			}
+		});
+	})
+
 	render()
+	// window.speechSynthesis.getVoices()
+	// setTimeout(function () {
+	// 	console.log(window.speechSynthesis.getVoices());
+	// 	speech.say(`You have ${window.speechSynthesis.getVoices().length} voices`);
+	// 	console.log(window.speechSynthesis.getVoices()[0].voiceURI)
+	// }, 1000);
+	speech.say(`The time is now _time()`);
 
 	function render() {
 		// ctx.save()
@@ -48,7 +95,6 @@ var clockmode = "clock"
 		elem.title.innerText = titleText
 
 		if(isRainbow(profile.defaultStyle)){
-			console.log("HI");
 			updateBGColor(profile.defaultStyle)
 		}
 		// ctx.restore()
@@ -67,12 +113,12 @@ var clockmode = "clock"
 
 	function updateBGColor(rainbowStyle) {
 		let colorDef = rainbowStyle["background-color"];
-		console.log(colorDef);
+		// console.log(colorDef);
 		let sat = colorDef.saturation || 1;
 		let val = colorDef.value || 1;
 		let opacity = colorDef.alpha || 1;
 		bgHue = (Date.now() % hueCycle) / hueCycle
-		console.log(bgHue);
+		// console.log(bgHue);
 		var color = HSVtoRGB(bgHue, sat, val) // or 0.64, 0.93
 		elem.container.style.backgroundColor = "rgba(" + color.r + "," + color.g + "," + color.b + "," + opacity + ")"
 	}

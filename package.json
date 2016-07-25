@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron/electron-quick-start.git"
+    "url": "git+https://github.com/vicksonzero/second-hand.git"
   },
   "keywords": [
     "timer",
@@ -22,14 +22,16 @@
   "author": "Dickson Chui (vicksonzero)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/electron/electron-quick-start/issues"
+    "url": "https://github.com/vicksonzero/second-hand/issues"
   },
-  "homepage": "https://github.com/electron/electron-quick-start#readme",
+  "homepage": "https://github.com/vicksonzero/second-hand",
   "devDependencies": {
     "electron-prebuilt": "^1.2.0"
   },
   "dependencies": {
     "js-yaml": "^3.6.1",
-    "moment": "^2.14.1"
+    "moment": "^2.14.1",
+    "node-schedule": "^1.1.1",
+    "number-to-words": "^1.2.3"
   }
 }
